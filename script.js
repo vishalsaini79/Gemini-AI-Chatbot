@@ -6,10 +6,7 @@ const fileInput = promptForm.querySelector("#file-input");
 const fileUploadWrapper = promptForm.querySelector(".file-upload-wrapper");
 const themeToggle = document.querySelector("#theme-toggle-btn");
 
-
-// Api setup
-const API_KEY = "AIzaSyCQ8GDSnGtuDgEKHQ6mYFPC9jE51RcmRsc";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+const API_URL = "/api/chat";
 
 let typingInteval, controller;
 const chatHistory = [];
@@ -60,7 +57,7 @@ const generateResponse = async (botMsgDiv) => {
         // send the chat history to the API  to get a response
         const response =  await fetch( API_URL, {
         method: "POST",
-        Headers: {"Content-Type": "application/json"},
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ contents : chatHistory}),
         signal: controller.signal
     });
