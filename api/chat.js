@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
     if (!apiKey) {
       return res.status(500).json({
-        error: { message: "GEMINI_API_KEY missing in Vercel" },
+        error: { message: "API key missing" },
       });
     }
 
@@ -17,27 +17,22 @@ export default async function handler(req, res) {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: req.body.contents,
-        }),
+        body: JSON.stringify(req.body),
       }
     );
 
     const data = await response.json();
 
-    // Debug log (optional)
-    console.log(data);
-
     if (!response.ok) {
-      return res.status(response.status).json({
-        error: data?.error?.message || "Gemini API error",
+      return res.status(400).json({
+        error: { message: data?.error?.message || "Gemini error" },
       });
     }
 
     return res.status(200).json(data);
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
-      error: error.message || "Server error",
+      error: { message: err.message },
     });
   }
 }
