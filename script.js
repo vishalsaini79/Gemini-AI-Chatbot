@@ -205,6 +205,27 @@ document.body.classList.toggle(
   localStorage.getItem("themeColor") === "light_mode"
 );
 
+// Suggestion boxes click
+document.querySelectorAll(".suggestions-item").forEach((item) => {
+  item.addEventListener("click", () => {
+    promptInput.value = item.querySelector(".text").textContent;
+    promptForm.dispatchEvent(new Event("submit"));
+  });
+});
+
+// mobile controls hide/show
+document.addEventListener("click", ({ target }) => {
+  const wrapper = document.querySelector(".prompt-wrapper");
+  if (!wrapper) return;
+
+  const shouldHide =
+    target.classList.contains("prompt-input") ||
+    (wrapper.classList.contains("hide-controls") &&
+      (target.id === "add-file-btn" || target.id === "stop-response-btn"));
+
+  wrapper.classList.toggle("hide-controls", shouldHide);
+});
+
 promptForm.addEventListener("submit", handleFormSubmit);
 promptForm
   .querySelector("#add-file-btn")
